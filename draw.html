@@ -15,11 +15,14 @@
             Сохрани свою картину --->
             <button id="save-button">Сохранить</button>
         </div>
+        <label for="color-picker">Палитра</label>
+        <input type="color" id="color-picker" value="black">
     </div>
     <!-- <script type="module" src="js/draw.js"></script> -->
 <script>
     let canvas;
     let isPressed = false;
+    let color = 'black';
     const pixelSize = 4;
 
     function onCanvasClick(event) {
@@ -32,8 +35,7 @@
 
         const x = alignCoordinate(event.pageX - rect.x);
         const y = alignCoordinate(event.pageY - rect.y);
-        console.log(x + ":" + y);
-        context.fillStyle = 'black';
+        context.fillStyle = color;
         context.fillRect(x, y, pixelSize, pixelSize);
     }
 
@@ -60,6 +62,9 @@
 
         const saveButton = document.getElementById('save-button');
         saveButton.onclick = saveImage;
+
+        const colorPicker = document.getElementById('color-picker');
+        colorPicker.onchange = event => color = event.target.value;
     }
 
     window.onload = onLoad;
