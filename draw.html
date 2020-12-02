@@ -9,7 +9,7 @@
 </head>
 <body>
     <div class="content">
-        <h1>Пора рисовать!</h1>
+        <h3>Пора рисовать!</h3>
         <canvas id="canvas" width="640" height="640"></canvas>
         <div>
             Сохрани свою картину --->
@@ -20,6 +20,7 @@
 <script>
     let canvas;
     let isPressed = false;
+    const pixelSize = 4;
 
     function onCanvasClick(event) {
         if (!isPressed)
@@ -29,8 +30,15 @@
 
         const rect = canvas.getBoundingClientRect();
 
+        const x = alignCoordinate(event.pageX - rect.x);
+        const y = alignCoordinate(event.pageY - rect.y);
+        console.log(x + ":" + y);
         context.fillStyle = 'black';
-        context.fillRect(event.pageX - rect.x, event.pageY - rect.y, 4, 4);
+        context.fillRect(x, y, pixelSize, pixelSize);
+    }
+
+    function alignCoordinate(number) {
+        return Math.floor(number / pixelSize) * pixelSize;
     }
 
     function saveImage() {
