@@ -3,11 +3,18 @@
 <head>
     <meta charset="UTF-8">
     <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
     <title>Пора рисовать</title>
 </head>
 <body>
     <div class="content">
+        <h1>Пора рисовать!</h1>
         <canvas id="canvas" width="640" height="640"></canvas>
+        <div>
+            Сохрани свою картину --->
+            <button id="save-button">Сохранить</button>
+        </div>
     </div>
     <!-- <script type="module" src="js/draw.js"></script> -->
 <script>
@@ -26,12 +33,22 @@
         context.fillRect(event.pageX - rect.x, event.pageY - rect.y, 4, 4);
     }
 
+    function saveImage() {
+        const link = document.createElement('a');
+        link.download = 'picture.png';
+        link.href = document.getElementById('canvas').toDataURL();
+        link.click();
+    }
+
     function onLoad() {
         canvas = document.getElementById('canvas');
         canvas.onmousemove = onCanvasClick;
         canvas.onmousedown = () => isPressed = !isPressed;
         canvas.onmouseup = () => isPressed = false;
         canvas.onmouseleave = () => isPressed = false;
+
+        const saveButton = document.getElementById('save-button');
+        saveButton.onclick = saveImage;
     }
 
     window.onload = onLoad;

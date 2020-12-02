@@ -4,6 +4,8 @@
     margin-left: auto;
     align-content: center;
     text-align: center;
+    font-family: 'Amatic SC', cursive;
+    font-size: 32px;
 }
 
 canvas {
