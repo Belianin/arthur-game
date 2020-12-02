@@ -1,0 +1,11 @@
+.content {
+    width: 800px;
+    margin-right: auto;
+    margin-left: auto;
+    align-content: center;
+    text-align: center;
+}
+
+canvas {
+    border: black 1px solid;
+}
