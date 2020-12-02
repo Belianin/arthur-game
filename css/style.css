@@ -4,10 +4,14 @@
     margin-left: auto;
     align-content: center;
     text-align: center;
-    font-family: 'Amatic SC', cursive;
-    font-size: 32px;
+    background-color: white;
 }
 
 canvas {
     border: black 1px solid;
+}
+
+body {
+    font-family: 'Amatic SC', cursive;
+    font-size: 32px;
 }

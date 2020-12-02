@@ -54,6 +54,9 @@
         canvas.onmousedown = () => isPressed = !isPressed;
         canvas.onmouseup = () => isPressed = false;
         canvas.onmouseleave = () => isPressed = false;
+        const context = canvas.getContext('2d');
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, 640, 640);
 
         const saveButton = document.getElementById('save-button');
         saveButton.onclick = saveImage;
