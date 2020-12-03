@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <title>Полетели!</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Полетели!</h3>
+        СПБ&nbsp;<canvas id="canvas" width="640" height="256"></canvas>&nbsp;ЕКБ
+        <div style="font-size: 24px;">
+            <h3>Управление</h2>
+            <strong>W</strong> - вверх<br>
+            <stirng>S</stirng> - вниз
+            <h3>Цель игры - Долететь до Екатеринбурга</h4>
+        </div>
+    </div>
+    <script>
+        let time = 0;
+        const endTime = 1000 * 10;
+        
+        const ctx = document.getElementById('canvas').getContext('2d')
+        const plane = new Image();
+        plane.src = 'flight/plane.png';
+        let playerY = 128;
+
+        const cloud = new Image();
+        cloud.src = 'flight/cloud.png'
+
+        let clouds = [];
+        clouds.push({x: 640, y: getRandom(0, 200)});
+        clouds.push({x: 800, y: getRandom(0, 200)});
+        clouds.push({x: 1000, y: getRandom(0, 200)});
+        clouds.push({x: 1200, y: getRandom(0, 200)});
+        clouds.push({x: 1400, y: getRandom(0, 200)});
+        clouds.push({x: 1600, y: getRandom(0, 200)});
+        clouds.push({x: 1800, y: getRandom(0, 200)});
+        clouds.push({x: 2000, y: getRandom(0, 200)});
+        clouds.push({x: 2200, y: getRandom(0, 200)});
+
+        document.addEventListener('keypress', (event) => {
+            const code = event.code;
+            if (code == "KeyW")
+                playerY -= 2;
+            else if (code == 'KeyS')
+                playerY += 2;
+        })
+
+        function getRandom(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function tick() {
+            time++;
+            
+            if (clouds.length < 8)
+                clouds.push({x: 640, y: getRandom(0, 200)})
+
+            for (let cloud of clouds){
+                cloud.x -= 0.5;}
+
+            clouds = Array.from(clouds.filter(c => c.x + 32 > 0));
+
+            draw();
+        }
+
+        function draw() {
+            ctx.fillStyle = 'white';
+            ctx.fillRect(0, 0, 640, 256);
+
+            for (let c of clouds)
+                ctx.drawImage(cloud, c.x, c.y);
+
+            ctx.fillStyle = 'black'
+            ctx.fillRect(0, 251, 640, 256);
+
+            ctx.fillStyle = 'yellow';
+            ctx.fillRect(0, 252, time / endTime * 640 ,256)
+
+            
+            ctx.drawImage(plane, 8, playerY);
+        }
+
+        setInterval(tick, 30)
+        
+    </script>
+</body>
+</html>
