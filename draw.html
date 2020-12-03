@@ -40,18 +40,16 @@
         context.fillRect(x, y, pixelSize, pixelSize);
 
         if (prevPoint !== null) {
-            let lineX = x > prevPoint.x ? x : prevPoint.x;
-            let lineY = y > prevPoint.y ? y : prevPoint.y;
+            let lineX = x;
+            let lineY = y;
             
-            let toX = x <= prevPoint.x ? x : prevPoint.x;
-            let toY = y <= prevPoint.y ? y : prevPoint.y;
-            while (toX !== lineX && toY !== lineY) {
-                if (lineX - toX > lineY - toY)
-                    toX += pixelSize
+            while (lineX !== prevPoint.x && lineY !== prevPoint.y) {
+                if (Math.abs(lineX - prevPoint.x) > Math.abs(lineY - prevPoint.y))
+                    lineX += lineX > prevPoint.x ? -pixelSize : pixelSize;
                 else
-                    toY += pixelSize;
+                    lineY += lineY > prevPoint.y ? -pixelSize : pixelSize;;
                 
-                context.fillRect(toX, toY, pixelSize, pixelSize);
+                context.fillRect(lineX, lineY, pixelSize, pixelSize);
             }
         }
         prevPoint = {x: x, y: y};
