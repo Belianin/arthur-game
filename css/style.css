@@ -2,9 +2,34 @@
     width: 800px;
     margin-right: auto;
     margin-left: auto;
-    align-content: center;
     text-align: center;
     background-color: white;
+}
+
+.snowflake {
+    width: 8px;
+    height: 8px;
+    background-color: teal;
+    position: fixed;
+}
+
+.button {
+    display: inline-block;
+    border-radius: 16px;
+    border: black 1px solid;
+    width: 128;
+    height: 128;
+    padding: 15px 32px;
+    text-align: center;
+    text-decoration: none;
+    display: inline-block;
+    font-size: 32px;
+    cursor: pointer;
+}
+
+.no-decor {
+    text-decoration: none;
+    color: black;
 }
 
 canvas {
