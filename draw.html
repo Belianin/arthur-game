@@ -23,10 +23,12 @@
     let isPressed = false;
     let color = 'black';
     const pixelSize = 4;
+    let prevPoint = null;
 
     function onCanvasClick(event) {
-        if (!isPressed)
-            return;
+        if (!isPressed){
+            prevPoint = null;
+            return;}
 
         const context = canvas.getContext('2d');
 
@@ -36,6 +38,23 @@
         const y = alignCoordinate(event.pageY - rect.y);
         context.fillStyle = color;
         context.fillRect(x, y, pixelSize, pixelSize);
+
+        if (prevPoint !== null) {
+            let lineX = x > prevPoint.x ? x : prevPoint.x;
+            let lineY = y > prevPoint.y ? y : prevPoint.y;
+            
+            let toX = x <= prevPoint.x ? x : prevPoint.x;
+            let toY = y <= prevPoint.y ? y : prevPoint.y;
+            while (toX !== lineX && toY !== lineY) {
+                if (lineX - toX > lineY - toY)
+                    toX += pixelSize
+                else
+                    toY += pixelSize;
+                
+                context.fillRect(toX, toY, pixelSize, pixelSize);
+            }
+        }
+        prevPoint = {x: x, y: y};
     }
 
     function alignCoordinate(number) {
