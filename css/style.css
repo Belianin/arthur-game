@@ -79,3 +79,18 @@ body {
         opacity: 1;
     }
 }
+
+.rotate {
+    animation: swing 4s infinite 0s alternate;
+}
+@keyframes swing {
+    0% {
+        transform: rotate(6deg);
+    }
+    50% {
+        transform: rotate(-6deg);
+    }
+    100% {
+        transform: rotate(6deg);
+    }
+}
