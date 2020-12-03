@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <title>Вступление</title>
+</head>
+<body>
+    <p class="fade-in">fsdfsdfsdf</p>
+    <div class="content" id="content">
+    </div>
+    <script>
+        const texts = [
+            "Первый текст Первый текст Первый текст Первый текст Первый текст Первый текст",
+            "Второй текст Второй текст Второй текст Второй текст Второй текст Второй текст",
+            'Третий текст <a href="flight.html">Третий текст</a>'
+        ]
+        let counter = 0;
+
+        function showNew() {
+            const text = document.createElement('div');
+            text.className = 'fade-in';
+            text.innerHTML = texts[counter];
+            counter++;
+
+            const content = document.getElementById('content');
+            content.parentNode.insertBefore(text, content);
+            //document.write(`<div class="fade-in">${texts[counter]}</div>`)
+        }
+
+        document.addEventListener('keypress', showNew)
+    </script>
+</body>
+</html>
