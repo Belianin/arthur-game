@@ -15,6 +15,10 @@
             Сохрани свою картину --->
             <button id="save-button">Сохранить</button>
         </div>
+        <button id="brush-small">Маленькая</button>
+        <button id="brush-medium">Маленькая</button>
+        <button id="brush-big">Маленькая</button><br>
+        <button id="clear-button">Отчистить</button><br>
         <label for="color-picker">Палитра</label>
         <input type="color" id="color-picker" value="black">
     </div>
@@ -24,11 +28,41 @@
     let color = 'black';
     const pixelSize = 4;
     let prevPoint = null;
+    let instrument = drawSingle;
+
+    function drawSingle(ctx, x, y){
+        ctx.fillStyle = color;
+        ctx.fillRect(x, y, pixelSize, pixelSize);
+    }
+
+    function drawMiddle(ctx, x, y){
+        ctx.fillStyle = color;
+        for (let i = -1; i < 2; i++) {   
+            ctx.fillRect(x + i * pixelSize, y, pixelSize, pixelSize);
+            ctx.fillRect(x, y + i * pixelSize, pixelSize, pixelSize);
+        }
+    }
+
+    function drawBig(ctx, x, y){
+        ctx.fillStyle = color;
+        ctx.fillRect(x - pixelSize, y - pixelSize, pixelSize * 3, pixelSize * 3);
+
+        ctx.fillRect(x - pixelSize * 2, y, pixelSize, pixelSize);
+        ctx.fillRect(x, y - pixelSize * 2, pixelSize, pixelSize);
+        ctx.fillRect(x + pixelSize * 2, y, pixelSize, pixelSize);
+        ctx.fillRect(x, y + pixelSize * 2, pixelSize, pixelSize);
+    }
+
+    function drawErase(ctx, x, y){
+        ctx.fillStyle = color;
+        ctx.fillRect(x - pixelSize * 4, y - pixelSize * 4, pixelSize * 9, pixelSize * 9);
+    }
 
     function onCanvasClick(event) {
-        if (!isPressed){
+        if (!isPressed) {
             prevPoint = null;
-            return;}
+            return;
+        }
 
         const context = canvas.getContext('2d');
 
@@ -36,8 +70,7 @@
 
         const x = alignCoordinate(event.pageX - rect.x);
         const y = alignCoordinate(event.pageY - rect.y);
-        context.fillStyle = color;
-        context.fillRect(x, y, pixelSize, pixelSize);
+        instrument(context, x, y)
 
         if (prevPoint !== null) {
             let lineX = x;
@@ -49,10 +82,18 @@
                 else
                     lineY += lineY > prevPoint.y ? -pixelSize : pixelSize;;
                 
-                context.fillRect(lineX, lineY, pixelSize, pixelSize);
+                    
+                instrument(context, lineX, lineY)
             }
         }
         prevPoint = {x: x, y: y};
+    }
+
+    function clear(){
+        const context = canvas.getContext('2d');
+
+        context.fillStyle = 'white';
+        context.fillRect(0, 0, 640, 640);
     }
 
     function alignCoordinate(number) {
@@ -69,7 +110,10 @@
     function onLoad() {
         canvas = document.getElementById('canvas');
         canvas.onmousemove = onCanvasClick;
-        canvas.onmousedown = () => isPressed = !isPressed;
+        canvas.onmousedown = (e) => {
+            isPressed = true;
+            onCanvasClick(e);
+        }
         canvas.onmouseup = () => isPressed = false;
         canvas.onmouseleave = () => isPressed = false;
         const context = canvas.getContext('2d');
@@ -81,6 +125,13 @@
 
         const colorPicker = document.getElementById('color-picker');
         colorPicker.onchange = event => color = event.target.value;
+
+        const clearButton = document.getElementById('clear-button');
+        clearButton.onclick = clear;
+
+        document.getElementById('brush-small').onclick = () => instrument = drawSingle;
+        document.getElementById('brush-medium').onclick = () => instrument = drawMiddle;
+        document.getElementById('brush-big').onclick = () => instrument = drawBig;
     }
 
     window.onload = onLoad;
