@@ -8,8 +8,12 @@
     <title>Вступление</title>
 </head>
 <body>
-    <p class="fade-in">fsdfsdfsdf</p>
-    <div class="content" id="content">
+    <div class="content">
+        <h1>Как-то раз...</h1>
+        <div id="inserter"></div>
+        <div style="margin-top: 80px; margin-bottom: 80px;">
+            <div class="rotate button opacity">Пробел</div>
+        </div>
     </div>
     <script>
         const texts = [
@@ -25,9 +29,10 @@
             text.innerHTML = texts[counter];
             counter++;
 
-            const content = document.getElementById('content');
+            const content = document.getElementById('inserter');
             content.parentNode.insertBefore(text, content);
-            //document.write(`<div class="fade-in">${texts[counter]}</div>`)
+
+            window.scrollTo(0,document.body.scrollHeight);
         }
 
         document.addEventListener('keypress', showNew)
