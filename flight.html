@@ -9,26 +9,37 @@
 </head>
 <body>
     <div class="content">
-        <h1>Полетели!</h3>
+        <h1>Полетели!</h1>
         СПБ&nbsp;<canvas id="canvas" width="640" height="256"></canvas>&nbsp;ЕКБ
-        <div style="font-size: 24px;">
-            <h3>Управление</h2>
-            <strong>W</strong> - вверх<br>
-            <stirng>S</stirng> - вниз
-            <h3>Цель игры - Долететь до Екатеринбурга</h4>
+        <div style="font-size: 24px">
+            <h3>Управление</h3>
+            <span class="teal">W</span> - вверх<br>
+            <span class="teal">S</span> - вниз<br>
+            <span class="teal">Пробел</span> - стрельба<br>
+            <span class="teal">A / D</span> - Замедление / Ускорение
         </div>
     </div>
     <script>
         let time = 0;
-        const endTime = 1000 * 10;
-        
-        const ctx = document.getElementById('canvas').getContext('2d')
+        const endTime = 10000 * 10;
+        let gameSpeed = 10;
+
+        let hSpeed = 0;
+        const ctx = document.getElementById('canvas').getContext('2d');
+        ctx.font = "24px Amatic SC";
         const plane = new Image();
         plane.src = 'flight/plane.png';
         let playerY = 128;
 
         const cloud = new Image();
-        cloud.src = 'flight/cloud.png'
+        cloud.src = 'flight/cloud.png';
+        const cloudSpeed = 0.5;
+
+        const bird = new Image();
+        bird.src = 'flight/bird.png';
+        const birdSpeed = 1.5;
+        let birdTimer = 500;
+        let birds = [];
 
         let clouds = [];
         clouds.push({x: 640, y: getRandom(0, 200)});
@@ -43,24 +54,46 @@
 
         document.addEventListener('keypress', (event) => {
             const code = event.code;
-            if (code == "KeyW")
-                playerY -= 2;
-            else if (code == 'KeyS')
-                playerY += 2;
-        })
+            if (code === "KeyW") {
+                hSpeed = -5;
+            }
+            else if (code === 'KeyS'){
+                hSpeed = 5;}
+
+            if (code === 'KeyD') {
+                if (gameSpeed < 100)
+                    gameSpeed += 1;
+            } else if (code === 'KeyA') {
+                if (gameSpeed > 10)
+                    gameSpeed -= 1;
+            }
+        });
 
         function getRandom(min, max) {
             return Math.random() * (max - min) + min;
         }
 
         function tick() {
-            time++;
-            
+            const modifier = gameSpeed * 0.1;
+            time += modifier;
+            birdTimer += modifier;
+            playerY += hSpeed;
+            hSpeed = hSpeed * 0.5;
+
+            if (birdTimer >= 1000){
+                birdTimer = 950;// getRandom(700, 950);
+                birds.push({x: 640, y: getRandom(0, 200)});
+            }
+
+            for (let bird of birds) {
+                bird.x -= birdSpeed * modifier;
+            }
+
             if (clouds.length < 8)
-                clouds.push({x: 640, y: getRandom(0, 200)})
+                clouds.push({x: 640, y: getRandom(0, 200)});
 
             for (let cloud of clouds){
-                cloud.x -= 0.5;}
+                cloud.x -= cloudSpeed * modifier;}
 
             clouds = Array.from(clouds.filter(c => c.x + 32 > 0));
 
@@ -74,18 +107,23 @@
             for (let c of clouds)
                 ctx.drawImage(cloud, c.x, c.y);
 
-            ctx.fillStyle = 'black'
+            for (let b of birds)
+                ctx.drawImage(bird, b.x, b.y);
+
+            ctx.fillStyle = 'black';
             ctx.fillRect(0, 251, 640, 256);
 
             ctx.fillStyle = 'yellow';
-            ctx.fillRect(0, 252, time / endTime * 640 ,256)
+            ctx.fillRect(0, 252, time / endTime * 640 ,256);
 
-            
             ctx.drawImage(plane, 8, playerY);
+
+            ctx.fillStyle = 'black';
+            ctx.fillText(gameSpeed + '%', 10, 30)
         }
 
         setInterval(tick, 30)
-        
+
     </script>
 </body>
 </html>
