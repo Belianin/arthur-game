@@ -3,7 +3,6 @@
     margin-right: auto;
     margin-left: auto;
     text-align: center;
-    background-color: white;
     height: 100vh;
 }
 
@@ -23,7 +22,6 @@
     padding: 15px 32px;
     text-align: center;
     text-decoration: none;
-    display: inline-block;
     font-size: 32px;
     cursor: pointer;
 }
@@ -32,9 +30,18 @@
     opacity: 0.5;
 }
 
+.teal {
+    color: teal
+}
+
 .no-decor {
     text-decoration: none;
     color: black;
+}
+
+.fixed {
+    position: fixed;
+    width: 100%;
 }
 
 canvas {
@@ -47,10 +54,10 @@ body {
 }
 
 .fade-in {
-    animation: fadein 2s;
-    -moz-animation: fadein 2s; /* Firefox */
-    -webkit-animation: fadein 2s; /* Safari and Chrome */
-    -o-animation: fadein 2s; /* Opera */
+    animation: fadein 4s;
+    -moz-animation: fadein 4s; /* Firefox */
+    -webkit-animation: fadein 4s; /* Safari and Chrome */
+    -o-animation: fadein 4s; /* Opera */
 }
 @keyframes fadein {
     from {

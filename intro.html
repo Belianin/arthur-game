@@ -8,23 +8,33 @@
     <title>Вступление</title>
 </head>
 <body>
-    <div class="content">
+    <div class="content fixed">
         <h1>Как-то раз...</h1>
-        <div id="inserter"></div>
-        <div style="margin-top: 80px; margin-bottom: 80px;">
-            <div class="rotate button opacity">Пробел</div>
+        <div style="width: 1000px; text-align: left; margin-right: auto; margin-left: auto">
+            <div id="inserter"></div>
         </div>
+        <div style="margin-top: 80px; margin-bottom: 80px;">
+            <div class="rotate button opacity" id="button">Пробел</div>
+        </div>
+    </div>
+    <div style="height: 100vh">
+        <script src="snow.js"></script>
     </div>
     <script>
         const texts = [
-            "Первый текст Первый текст Первый текст Первый текст Первый текст Первый текст",
-            "Второй текст Второй текст Второй текст Второй текст Второй текст Второй текст",
-            'Третий текст <a href="flight.html">Третий текст</a>'
-        ]
+            "..был обычный теплый (холодный) <span class='teal'>май 2020 года</span>.",
+            "В одном грустном и очень большом городе грустил один небольшой <span class='teal'>человек</span>.<br>Ну, положим, палитра чувств была чуть грязнее однотонной печали, но цвет был явно неприятный.",
+            "Однако в глубине души он знал, что жизнь это <u>не самая плохая штука</u>.<br>Нужно лишь правильно к ней отнестись, взять её (себя) в руки и делать что хочется.<br><span class='teal'>Быть счастилвым</span>.",
+            "Если ты <span class='teal'>герой</span>, тебе предстоит много трудностей.<br>Но радовать тебя должна даже не награда в конце путешествия.<br>Тебя должно радовать то, как <span class='teal'>путешествие изменит тебя</span>.",
+            'С такими мыслями наш юный герой и <a class="teal" href="flight.html">отправился в дорогу</a>'
+        ];
         let counter = 0;
 
         function showNew() {
-            const text = document.createElement('div');
+            if (counter >= texts.length){
+                return;
+            }
+            const text = document.createElement('p');
             text.className = 'fade-in';
             text.innerHTML = texts[counter];
             counter++;
@@ -32,10 +42,14 @@
             const content = document.getElementById('inserter');
             content.parentNode.insertBefore(text, content);
 
-            window.scrollTo(0,document.body.scrollHeight);
+            if (counter >= texts.length)
+                document.getElementById('button').innerHTML = "тыкай на зеленую ссылку"
+
+            //window.scrollTo(0,document.body.scrollHeight);
         }
 
         document.addEventListener('keypress', showNew)
+        window.scroll(0, 0);
     </script>
 </body>
 </html>
