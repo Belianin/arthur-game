@@ -1,0 +1,65 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="css/dating-sim.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <title>Симулякр</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Симулякр</h1>
+        <div>
+            <div id="inserter"></div>
+        </div>
+    </div>
+    <script>
+        const dialogs = [
+            [
+                {
+                    title: "Приветик :*",
+                    value: 0,
+                    answer: "Э-э-э, привет"
+                },
+                {
+                    title: "Здарова, бандит",
+                    value: -10,
+                    answer: "Эй, я законопослушный гражданин"
+                },
+                {
+                    title: "Привет",
+                    value: 5,
+                    answer: "Привет!"
+                }
+            ]
+        ];
+
+        let counter = 0;
+        let mood = 50;
+
+        function say(index) {
+            const dialog = dialogs[counter][index];
+            mood += dialog.value;
+            alert(dialog.answer + " (" + mood + ")")
+        }
+
+        function render() {
+            const content = document.getElementById('inserter');
+            const currentDialog = dialogs[counter];
+            for (let i = 0; i < currentDialog.length; i++) {
+                const text = document.createElement('div');
+                text.className = 'button width-200'
+                text.innerHTML = currentDialog[i].title;
+                text.onclick = () => say(i);
+
+                content.parentNode.insertBefore(text, content);
+            }
+        }
+
+        render();
+
+    </script>
+</body>
+</html>
