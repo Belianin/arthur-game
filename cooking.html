@@ -70,7 +70,10 @@
 
         function drawRotated(f) {
             ctx.setTransform(1, 0, 0, 1, f.x + 16, f.y + 16); // sets scale and origin
-            ctx.rotate(3*time*Math.PI/180);
+            if (f.vector.x > 0)
+                ctx.rotate(3*time*Math.PI/180);
+            else 
+                ctx.rotate(-3*time*Math.PI/180);
             ctx.drawImage(tomato, -16, -16);
         }
 
