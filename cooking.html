@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <title>Полетели!</title>
+</head>
+<body>
+    <div class="content">
+        <h1>Шеф-повар</h1>
+        <canvas id="canvas" width="640" height="640"></canvas>
+    </div>
+    <script>
+        const ctx = document.getElementById("canvas").getContext('2d');
+        let time = 0;
+
+        let food = [];
+        let sprites = {
+        }
+
+        let tomato = new Image();
+        tomato.src = "food/tomato.png";
+        sprites["tomato"] = tomato;
+
+        function getVector(pos) {
+            if (Math.random() > 0.5) {
+                return {
+                    x: (-pos) / 200,
+                    y: 640 / 200
+                }
+            }
+            
+            return {
+                x: (640 - pos) / 200,
+                y: 640 / 200
+            }
+        }
+
+        function addFood() {
+            const x = getRandom(0, 640);
+
+            const vector = getVector(x);
+
+            food.push({
+                x: x,
+                y: 0,
+                vector: vector,
+                sprite: "tomato"
+            })
+        }
+
+        function tickTime() {
+            time++;
+
+            if (time % 30 === 0){
+                addFood();
+            }
+        }
+
+        function moveFood() {
+            for (let f of food) {
+                f.x += f.vector.x;
+                f.y += f.vector.y;
+            }
+
+            food = Array.from(food.filter(f => f.x + 32 > 0 && f.x < 640 && f.y < 640));
+        }
+
+        function drawRotated(f) {
+            ctx.setTransform(1, 0, 0, 1, f.x + 16, f.y + 16); // sets scale and origin
+            ctx.rotate(3*time*Math.PI/180);
+            ctx.drawImage(tomato, -16, -16);
+        }
+
+        function draw() {
+            ctx.fillStyle = "white";
+            ctx.fillRect(0, 0, 640, 640);
+            ctx.fillStyle = "black";
+
+            for (let f of food) {
+                //ctx.setTransform(1,0,0,1,0,0);
+                //ctx.fillRect(f.x, f.y, 32, 32);
+                drawRotated(f);
+            }
+            ctx.setTransform(1,0,0,1,0,0);
+        }
+
+        function tick(){
+            tickTime();
+            moveFood();
+            draw();
+        }
+
+        function getRandom(min, max) {
+            return Math.random() * (max - min) + min;
+        }
+
+        function onCanvasClick(x, y) {
+            food = Array.from(food.filter(f => f.x + 32 < x || f.x > x || f.y + 32 < y || f.y > y));
+        }
+
+        setInterval(tick, 15);
+        let isPressed = false;
+        let canvas = document.getElementById('canvas');
+        canvas.onmousedown = (e) => {
+            if (isPressed)
+                return;
+            isPressed = true;
+
+            const rect = canvas.getBoundingClientRect();
+
+            const x = e.pageX - rect.x;
+            const y = e.pageY - rect.y;
+
+            onCanvasClick(x, y);
+        }
+        canvas.onmouseup = () => isPressed = false;
+        canvas.onmouseleave = () => isPressed = false;
+
+    </script>
+</body>
+</html>
