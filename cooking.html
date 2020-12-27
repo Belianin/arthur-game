@@ -15,6 +15,8 @@
     <script>
         const ctx = document.getElementById("canvas").getContext('2d');
         let time = 0;
+        let progress = 0;
+        const maxProgress = 1000;
 
         let food = [];
         let sprites = {
@@ -24,17 +26,20 @@
         tomato.src = "food/tomato.png";
         sprites["tomato"] = tomato;
 
+        let effects = [];
+
+        const vectorCoeff = 150;
         function getVector(pos) {
             if (Math.random() > 0.5) {
                 return {
-                    x: (-pos) / 200,
-                    y: 640 / 200
+                    x: (-pos) / vectorCoeff,
+                    y: 640 / vectorCoeff
                 }
             }
             
             return {
-                x: (640 - pos) / 200,
-                y: 640 / 200
+                x: (640 - pos) / vectorCoeff,
+                y: 640 / vectorCoeff
             }
         }
 
@@ -53,8 +58,10 @@
 
         function tickTime() {
             time++;
+            if (progress > 0)
+                progress--;
 
-            if (time % 30 === 0){
+            if (time % 20 === 0){
                 addFood();
             }
         }
@@ -80,7 +87,8 @@
         function draw() {
             ctx.fillStyle = "white";
             ctx.fillRect(0, 0, 640, 640);
-            ctx.fillStyle = "black";
+            ctx.fillStyle = "rgba(255, 0, 0, 0.5)";
+            ctx.fillRect(0, 640 - ((progress / maxProgress) * 640), 640, (progress / maxProgress) * 640);
 
             for (let f of food) {
                 //ctx.setTransform(1,0,0,1,0,0);
@@ -88,29 +96,57 @@
                 drawRotated(f);
             }
             ctx.setTransform(1,0,0,1,0,0);
+
+            ctx.fillStyle = "teal";
+            for (let e of effects) {
+                ctx.fillRect(e.x - e.time, e.y - e.time, e.time * 2, e.time * 2);
+                e.time--;
+            }
         }
 
         function tick(){
             tickTime();
             moveFood();
             draw();
+            effects = Array.from(effects.filter(e => e.time > 0));
         }
 
         function getRandom(min, max) {
             return Math.random() * (max - min) + min;
         }
 
+        function addProgress() {
+            progress += 50;
+        }
+
+        const clickRange = 4;
         function onCanvasClick(x, y) {
-            food = Array.from(food.filter(f => f.x + 32 < x || f.x > x || f.y + 32 < y || f.y > y));
+            food = Array.from(food.filter(f => 
+            f.x + 32 < x - clickRange ||
+            f.x > x + clickRange||
+            f.y + 32 < y - clickRange ||
+            f.y > y + clickRange ||
+            addProgress()));
+
+            effects.push({x: x, y: y, time: 8})
         }
 
         setInterval(tick, 15);
         let isPressed = false;
         let canvas = document.getElementById('canvas');
         canvas.onmousedown = (e) => {
-            if (isPressed)
-                return;
             isPressed = true;
+
+            const rect = canvas.getBoundingClientRect();
+
+            const x = e.pageX - rect.x;
+            const y = e.pageY - rect.y;
+
+            onCanvasClick(x, y);
+        }
+        canvas.onmousemove = (e) => {
+            if (!isPressed)
+                return;
 
             const rect = canvas.getBoundingClientRect();
 
