@@ -34,7 +34,13 @@
             const modalBackground = document.createElement("div")
             modalBackground.className = "modal-background";
 
+            
+            const modal = document.createElement("div")
+            modal.className = "modal";
+            modal.innerText = "Победа!";
+
             canvas.parentNode.insertBefore(modalBackground, canvas);
+            canvas.parentNode.insertBefore(modal, canvas);
         }
 
         const vectorCoeff = 150;

@@ -55,8 +55,18 @@
 }
 
 .modal {
-    width: 640;
-    
+    width: 400px;
+    min-height: 240px;
+    border-radius: 8px;
+    border: black 1px solid;
+    background-color: white;
+    display: block;
+    position: fixed;
+    text-align: center;
+    font-size: 32px;
+    z-index: 20;
+    /*left: calc(100vw - 200);
+    top: calc(50vw); */
 }
 
 canvas {
