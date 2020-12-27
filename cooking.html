@@ -28,6 +28,15 @@
 
         let effects = [];
 
+        function finishGame() {
+            clearInterval(intervalId);
+
+            const modalBackground = document.createElement("div")
+            modalBackground.className = "modal-background";
+
+            canvas.parentNode.insertBefore(modalBackground, canvas);
+        }
+
         const vectorCoeff = 150;
         function getVector(pos) {
             if (Math.random() > 0.5) {
@@ -57,6 +66,11 @@
         }
 
         function tickTime() {
+            if (progress >= maxProgress){
+                finishGame();
+                return;
+            }
+
             time++;
             if (progress > 0)
                 progress--;
@@ -131,7 +145,7 @@
             effects.push({x: x, y: y, time: 8})
         }
 
-        setInterval(tick, 15);
+        let intervalId = setInterval(tick, 15);
         let isPressed = false;
         let canvas = document.getElementById('canvas');
         canvas.onmousedown = (e) => {
