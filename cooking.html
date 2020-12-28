@@ -37,7 +37,7 @@
             
             const modal = document.createElement("div")
             modal.className = "modal";
-            modal.innerText = "Победа!";
+            modal.innerHTML = `<p>Победа!</p><p>Запомни третье число: 7</p><p><a href="draw.html">Дальше</a></p>`;
 
             canvas.parentNode.insertBefore(modalBackground, canvas);
             canvas.parentNode.insertBefore(modal, canvas);
@@ -177,7 +177,6 @@
         }
         canvas.onmouseup = () => isPressed = false;
         canvas.onmouseleave = () => isPressed = false;
-
     </script>
 </body>
 </html>
