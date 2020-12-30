@@ -12,14 +12,19 @@
     <div class="content">
         <h1>Симулякр</h1>
         <div>
-            <div id="inserter"></div>
+            <p class="teal" id="answer"></p>
+            <p id="question"></p>
+            <p id="mood"></p>
+            <div id="buttons"></div>
         </div>
     </div>
     <script>
         const dialogs = [
-            [
+            {
+                question: "<i>Вы видите красивого мальчика, ждущего вас на остановке. Он вас не замечает, так что, похоже, вам придётся первой обратить на себя внимание.</i>",
+                answers: [
                 {
-                    title: "Приветик :*",
+                    title: "Приветик 😘",
                     value: 0,
                     answer: "Э-э-э, привет"
                 },
@@ -32,30 +37,53 @@
                     title: "Привет",
                     value: 5,
                     answer: "Привет!"
-                }
-            ]
+                }]
+            },
+            {
+                question: `<i>Он убирает наушники в карман и встает со скамейки.</i><br><span class="teal">— Никогда не был на Химаше. Куда пойдем?</span>`,
+                answers: [
+                {
+                    title: "Пойдем покажу тебе район тогда",
+                    value: 5,
+                    answer: "Погнали!"
+                },
+                {
+                    title: "Пойдем в магазин, купим минералки",
+                    value: 3,
+                    answer: "Пойдем"
+                },
+                {
+                    title: "Пойдем хлопнем по пивку. Тут рядом есть балдежный двор",
+                    value: 0,
+                    answer: "Это, конечно, не то на что я расчитывал"
+                }]
+            },
         ];
 
         let counter = 0;
         let mood = 50;
 
         function say(index) {
-            const dialog = dialogs[counter][index];
+            const dialog = dialogs[counter].answers[index];
             mood += dialog.value;
-            alert(dialog.answer + " (" + mood + ")")
+            document.getElementById('answer').innerHTML = `${dialog.answer}<br>${dialog.value > 0 ? "+" : ""}${dialog.value}`;
+            counter++;
+            render();
         }
 
         function render() {
-            const content = document.getElementById('inserter');
+            if (counter < dialogs.length) {
             const currentDialog = dialogs[counter];
-            for (let i = 0; i < currentDialog.length; i++) {
-                const text = document.createElement('div');
-                text.className = 'button width-200'
-                text.innerHTML = currentDialog[i].title;
-                text.onclick = () => say(i);
+            document.getElementById('question').innerHTML = currentDialog.question;
 
-                content.parentNode.insertBefore(text, content);
+            const buttons = [];
+            for (let i = 0; i < currentDialog.answers.length; i++) {
+                buttons.push(`<div class="button width-200" onclick="say(${i})">${currentDialog.answers[i].title}</div>`)
             }
+            document.getElementById('buttons').innerHTML = buttons.join('');
+            }
+
+            document.getElementById('mood').innerHTML = mood;
         }
 
         render();
