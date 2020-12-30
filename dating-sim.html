@@ -14,7 +14,7 @@
         <div>
             <p class="teal" id="answer"></p>
             <p id="question"></p>
-            <div id="buttons" style="vertical-align: top;"></div>
+            <div id="buttons" style="display: flex; justify-content: center;"></div>
             <span>Отношение: </span><span style="font-size: 80px;" id="mood"></span><span id="moodBonus"></span>
         </div>
     </div>
@@ -143,7 +143,7 @@
 
             const buttons = [];
             for (let i = 0; i < currentDialog.answers.length; i++) {
-                buttons.push(`<div class="button width-200" onclick="say(${i})">${currentDialog.answers[i].title}</div>`)
+                buttons.push(`<div class="width-200" onclick="say(${i})">${currentDialog.answers[i].title}</div>`)
             }
             document.getElementById('buttons').innerHTML = buttons.join('');
             }
