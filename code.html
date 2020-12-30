@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="ru">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="css/style.css">
+    <link rel="preconnect" href="https://fonts.gstatic.com">
+    <link href="https://fonts.googleapis.com/css2?family=Amatic+SC:wght@700&display=swap" rel="stylesheet">
+    <title>Шифр</title>
+</head>
+<body>
+    <style>
+        input {
+            height: 32px;
+        }
+    </style>
+    <div class="content">
+        <p>Введи полученные три цифры:</p>
+        <input type="text" id="firstInput">
+        <p id="firstPuzzle"></p>
+        <input type="text" id="secondInput" hidden="true">
+        <p id="secondPuzzle"></p>
+        <input type="text" id="thirdInput" hidden="true">
+        <p id="thirdPuzzle"></p>
+        <input type="text" id="forthInput" hidden="true">
+        <p id="forthPuzzle"></p>
+        <input type="text" id="finalInput" hidden="true">
+        <p id="finalPuzzle"></p>
+    </div>
+    <script>
+        function checkFirst(value) {
+            if (value !== '417') {
+                firstPuzzle.innerHTML = "Неправильное число";
+            } else {
+                firstPuzzle.innerHTML = "Теперь добавь 555 к этому числу";
+                firstInput.disabled = true;
+                firstInput.onchange = null;
+
+                secondInput.hidden = false;
+            }
+        }
+
+        function checkSecond(value) {
+            if (value !== '972') {
+                secondPuzzle.innerHTML = "Неправильное число";
+            } else {
+                secondPuzzle.innerHTML = "Подели на три";
+                secondInput.disabled = true;
+                secondInput.onchange = null;
+
+                thirdInput.hidden = false;
+            }
+        }
+
+        function checkThird(value) {
+            if (value !== '324') {
+                thirdPuzzle.innerHTML = "Неправильное число";
+            } else {
+                thirdPuzzle.innerHTML = "Сдвинь числа по кругу вправо";
+                thirdInput.disabled = true;
+                thirdInput.onchange = null;
+
+                forthInput.hidden = false;
+            }
+        }
+
+        function checkForth(value) {
+            if (value !== '432') {
+                forthPuzzle.innerHTML = "Неправильное число";
+            } else {
+                forthPuzzle.innerHTML = "Вычти 207";
+                forthInput.disabled = true;
+                forthInput.onchange = null;
+
+                
+                finalInput.hidden = false;
+            }
+        }
+
+        function checkFinal(value) {
+            if (value !== '225') {
+                finalPuzzle.innerHTML = "Неправильное число";
+            } else {
+                finalPuzzle.innerHTML = '<a class="teal" href="finish.html">Поздравляю!</a>';
+                finalInput.disabled = true;
+                finalInput.onchange = null;
+            }
+        }
+
+        let firstInput = document.getElementById('firstInput');
+        let firstPuzzle = document.getElementById('firstPuzzle');
+        firstInput.onchange = e => checkFirst(e.target.value);
+
+        let secondInput = document.getElementById('secondInput');
+        let secondPuzzle = document.getElementById('secondPuzzle');
+        secondInput.onchange = e => checkSecond(e.target.value);
+        
+        let thirdInput = document.getElementById('thirdInput');
+        let thirdPuzzle = document.getElementById('thirdPuzzle');
+        thirdInput.onchange = e => checkThird(e.target.value);
+
+        let forthInput = document.getElementById('forthInput');
+        let forthPuzzle = document.getElementById('forthPuzzle');
+        forthInput.onchange = e => checkForth(e.target.value);
+
+        
+        let finalInput = document.getElementById('finalInput');
+        let finalPuzzle = document.getElementById('finalPuzzle');
+        finalInput.onchange = e => checkFinal(e.target.value);
+    </script>
+</body>
+</html>
