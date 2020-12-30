@@ -21,7 +21,7 @@
     </div>
     <script>
         let time = 0;
-        const endTime = 10000 * 10;
+        const endTime = 10000;
         let gameSpeed = 10;
 
         let hSpeed = 0;
@@ -42,23 +42,20 @@
         let birds = [];
 
         let clouds = [];
-        clouds.push({x: 640, y: getRandom(0, 200)});
-        clouds.push({x: 800, y: getRandom(0, 200)});
-        clouds.push({x: 1000, y: getRandom(0, 200)});
-        clouds.push({x: 1200, y: getRandom(0, 200)});
-        clouds.push({x: 1400, y: getRandom(0, 200)});
-        clouds.push({x: 1600, y: getRandom(0, 200)});
-        clouds.push({x: 1800, y: getRandom(0, 200)});
-        clouds.push({x: 2000, y: getRandom(0, 200)});
-        clouds.push({x: 2200, y: getRandom(0, 200)});
+        for (let i = 0; i < 10 ; i++)
+            clouds.push({x: 640 + i * 200, y: getRandom(0, 200)});
 
+        let isPressed = false;
         document.addEventListener('keypress', (event) => {
             const code = event.code;
             if (code === "KeyW") {
                 hSpeed = -5;
+                isPressed = true;
             }
             else if (code === 'KeyS'){
-                hSpeed = 5;}
+                hSpeed = 5;
+                isPressed = true;
+            }
 
             if (code === 'KeyD') {
                 if (gameSpeed < 100)
@@ -66,6 +63,13 @@
             } else if (code === 'KeyA') {
                 if (gameSpeed > 10)
                     gameSpeed -= 1;
+            }
+        });
+
+        document.addEventListener('keyup', (event) => {
+            const code = event.code;
+            if (code === "KeyW" || code === 'KeyS') {
+                isPressed = false;
             }
         });
 
@@ -78,10 +82,11 @@
             time += modifier;
             birdTimer += modifier;
             playerY += hSpeed;
+            if (!isPressed)
             hSpeed = hSpeed * 0.5;
 
             if (birdTimer >= 1000){
-                birdTimer = 950;// getRandom(700, 950);
+                birdTimer = getRandom(700, 950);
                 birds.push({x: 640, y: getRandom(0, 200)});
             }
 
