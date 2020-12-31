@@ -185,6 +185,8 @@
                 buttons.push(`<div class="width-200" onclick="say(${i})">${currentDialog.answers[i].title}</div>`)
             }
             document.getElementById('buttons').innerHTML = buttons.join('');
+            } else {
+                finishGame();
             }
 
             document.getElementById('mood').innerHTML = mood;
