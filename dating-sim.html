@@ -14,6 +14,7 @@
         <div>
             <p class="teal" id="answer"></p>
             <p id="question"></p>
+            <img src="boy.png">
             <div id="buttons" style="display: flex; justify-content: center;"></div>
             <span>Отношение: </span><span style="font-size: 80px;" id="mood"></span><span id="moodBonus"></span>
         </div>
@@ -115,6 +116,44 @@
                     answer: "А-а-а, как же я тебя понимаю! Так ненавижу этих мразей тоже. И ещё очереди ненавижу. И ещё когда меня не слышат по телефону. Я вообще много что ненавижу..."
                 }]
             },
+            {
+                question: `<span stlye="black">Наступило молчание</span>`,
+                answers: [
+                {
+                    title: "*Промолчать*",
+                    value: -10,
+                    answer: "Э-э-э..."
+                },
+                {
+                    title: "Может чаю?",
+                    value: 10,
+                    answer: "Давай!"
+                },
+                {
+                    title: "Может тебя связать и это сфотографировать?",
+                    value: 10,
+                    answer: "Почему нет?"
+                }]
+            },
+            {
+                question: `— Ладно, уже поздно, поеду-ка я домой`,
+                answers: [
+                {
+                    title: "Надеюсь ещё увидимся",
+                    value: 10,
+                    answer: "Я тоже"
+                },
+                {
+                    title: "Ага",
+                    value: -10,
+                    answer: "Да... Пока"
+                },
+                {
+                    title: "Пока!",
+                    value: 0,
+                    answer: "Пока"
+                }]
+            },
         ];
 
         let counter = 0;
@@ -149,6 +188,20 @@
             }
 
             document.getElementById('mood').innerHTML = mood;
+        }
+
+        function finishGame() {
+            const modalBackground = document.createElement("div")
+            modalBackground.className = "modal-background";
+
+            
+            const modal = document.createElement("div")
+            modal.className = "modal";
+            modal.innerHTML = `<p>Молодец! Вам удалось завоевать его сердце</p><p>Запомни второе число: 1</p><p><a href="cooking.html">Дальше</a></p>`;
+            const canvas = document.getElementById("buttons");
+
+            canvas.parentNode.insertBefore(modalBackground, canvas);
+            canvas.parentNode.insertBefore(modal, canvas);
         }
 
         render();
